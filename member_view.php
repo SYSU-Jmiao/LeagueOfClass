@@ -66,7 +66,6 @@
 <?php } else { ?>
 	<a style="text-decoration:none;" href=<?php echo "member_manage?action=1&&email=".$member['useremail']?> ><button type="button" class="btn btn-primary" style="display:inline-block;float:right;position: relative;right:10px">设置为管理员</button></a>
 <?php } ?>
-	<hr>
 <?php } else if ($admin == 1) { ?>
 <?php if ($member['admin'] == 2) { ?>
 	<a style="text-decoration:none;" href=<?php echo "member_remove?email=".$member['useremail']?> ><button type="button" class="btn btn-primary" style="display:inline-block;float:right;position: relative;right:10px">踢出</button></a>
@@ -76,10 +75,8 @@
 <?php } ?>
 
 </div>
+<hr>
 <?php
 	}
-?>
-	<br/>
-<?php
 }
 ?>

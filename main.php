@@ -195,7 +195,15 @@ $realname_array = get_realnames_with_emails($email_array);
 for ($i = 0; $i < count($news_array); $i ++) {
 	$news = $news_array[$i];
 ?>
-	<h4><?php echo $news['content']."---".$realname_array[$i]."---".$news['posttime'] ?></h4>
+
+<div>
+<h4>
+	<?php echo $realname_array[$i] ." 发表于 ". $news['posttime']; ?>
+</h4>
+<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content']; ?></h4>
+</div>
+<hr/>
+
 <?php if ($is_class_manager) { // begin if($is_class_manager) ?>
 	<a style="text-decoration:none;" href=<?php echo "news_remove.php?newsid=".$news['newsid'] ?> ><button class="btn btn-primary btn-sm">删除</button></a>
 	<a style="text-decoration:none;" href=<?php echo "main.php?page=2&&newsid=".$news['newsid'] ?> ><button class="btn btn-primary btn-sm">编辑</button></a>
@@ -342,6 +350,8 @@ for ($i = 0; $i < count($news_array); $i ++) {
 	</div>
 </div><!-- /.col-lg-6 -->
 </div>
+<br/>
+<br/>
 <div name = "main_frame_2" id = "main_frame_2" data-target="#navbarEx" data-offset = "0">
 
 </div>
@@ -394,11 +404,20 @@ $realname_array = get_realnames_with_emails($email_array);
 for ($i = 0; $i < count($chat_array); $i ++) {
 	$chat = $chat_array[$i];
 ?>
-	<h4><?php echo $chat['content']."---".$realname_array[$i]."---".$chat['posttime'] ?></h4>
+
+<div>
+<h4>
+	<?php echo $realname_array[$i] ." 发表于 ". $chat['posttime']; ?>
+</h4>
+<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$chat['content']; ?></h4>
+
 <?php if ($is_class_manager) { ?>
 	<a style="text-decoration:none;" href=<?php echo "chat_remove.php?chatid=".$chat['chatid'] ?> ><button class="btn btn-primary btn-sm">删除</button></a>
 <?php } ?>
 	<a style="text-decoration:none;" href=<?php echo "main.php?page=4&&chatid=".$chat['chatid'] ?>  ><button class="btn btn-primary btn-sm">回复</button></a>
+	<br/>
+	</div>
+	<hr/>
 <?php }//end foreach ?>
 </div>
 <?php } else { // else if isset($_GET['chatid'])

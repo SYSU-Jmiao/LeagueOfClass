@@ -1,6 +1,6 @@
 <?php
 function db_connect() {
-	 $result = new mysqli('localhost', 'root', '', 'leagueofclass');
+	@ $result = new mysqli('localhost', 'leagueofclass', 'leagueofclass', 'leagueofclass');
 	if (!$result) {
 		throw new Exception('Error to Connect to The Database');
 	} else {
@@ -249,5 +249,8 @@ function remove_manager($classid,$tomanage){
 }
 function remove_member($classid,$to_remove){
 	db_nonreturn_operation("delete from authority where classid='".$classid."' and useremail='".$to_remove."'","Error:".__FUNCTION__);
+}
+function get_manager($classid){
+	return db_array_return_operation("select * from authority where classid='".$classid."' and admin<2","Error:".__FUNCTION__);
 }
 ?>

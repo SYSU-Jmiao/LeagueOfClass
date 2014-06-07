@@ -149,14 +149,44 @@ function send_email($address, $subject, $body){
 	$mail->IsSMTP(); // telling the class to use SMTP
 	$mail->SMTPAuth = true;				  // enable SMTP authentication
 	$mail->SMTPSecure = "ssl";				 // sets the prefix to the servier
-	$mail->Host = "smtp.gmail.com";	  // sets GMAIL as the SMTP server
+	$mail->Host = "smtp.163.com";	  // sets GMAIL as the SMTP server
 	$mail->Port = 465;				   // set the SMTP port for the GMAIL server
-	$mail->Username = "sysu.jmiao@gmail.com";  // GMAIL username
-	$mail->Password = "1230123";			// GMAIL password
-	$mail->SetFrom('sysu.jmiao@gmail.com', 'jmiao');//设置发件人
+	$mail->Username = "leagueofclass@163.com";  // GMAIL username
+	$mail->Password = "loc2014";			// GMAIL password
+	$mail->SetFrom('leagueofclass@163.com', '班级联盟');//设置发件人
 	$mail->Body = $body; //邮件内容
 	$mail->Subject = $subject; //邮件主题
 	$mail->AddAddress($address, $address);//添加收件人
+	//$mail->AddAttachment("images/phpmailer.gif");	  // attachment
+	//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+	
+	//email post not active
+	if(!$mail->Send()) {
+		throw new Exception("Error to Send Email:".$mail->ErrorInfo);
+	}
+	return true;
+}
+
+/*
+ * send a email to $address_array
+ * the subject is $subject, the body is $body
+ * if error to send, throw an exception with error message
+ */
+function send_emails($address_array, $subject, $body){
+	$mail = new PHPMailer();
+	$mail->IsSMTP(); // telling the class to use SMTP
+	$mail->SMTPAuth = true;				  // enable SMTP authentication
+	$mail->SMTPSecure = "ssl";				 // sets the prefix to the servier
+	$mail->Host = "smtp.163.com";	  // sets GMAIL as the SMTP server
+	$mail->Port = 465;				   // set the SMTP port for the GMAIL server
+	$mail->Username = "leagueofclass@163.com";  // GMAIL username
+	$mail->Password = "loc2014";			// GMAIL password
+	$mail->SetFrom('leagueofclass@163.com', '班级联盟');//设置发件人
+	$mail->Body = $body; //邮件内容
+	$mail->Subject = $subject; //邮件主题
+	foreach ($address_array as $address) {
+		$mail->AddAddress($address, $address);
+	}
 	//$mail->AddAttachment("images/phpmailer.gif");	  // attachment
 	//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 	

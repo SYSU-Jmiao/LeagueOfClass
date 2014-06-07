@@ -2,7 +2,7 @@
 	var now_p = 0;
 	var speed = 0;
 	$(document).ready(function(){
-	$("#main_frame_2").load("classes_view.php?search=信科");
+	$("#main_frame_2").load("classes_view.php?search=软院");
 	$("#cla_1 a").click(function(){
 		if (now_p != 5){
 			$("#main_frame_2").load("classes_view.php?search=信科");
@@ -47,8 +47,8 @@
 	<h4 style="display:inline-block;">全部班级</h4>
 </div>
 <ul class="nav nav-pills" >
-	<li class="active" id="cla_1"><a href="#">信科院</a></li>
-	<li class="" id="cla_2"><a href="#">软院</a></li>
+	<li class="active" id="cla_2"><a href="#">软院</a></li>
+	<li class="" id="cla_1"><a href="#">信科院</a></li>
 	<li class="" id="cla_3"><a href="#">传设院</a></li>
 </ul>
 <br><br>
