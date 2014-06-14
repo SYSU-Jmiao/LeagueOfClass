@@ -125,13 +125,13 @@ $class_name = get_classname_with_classid($classid);
 								?>
 								<div>
 									<h4>
-										<?php echo $realname_array[$i]." 发表于 ".$news['posttime'];?>
+										<?php echo "[通知]".$realname_array[$i]." 发表于 ".$news['posttime'];?>
 									</h4>
 									<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content']?></h4>
 									<?php if ($is_class_manager) {// begin if($is_class_manager) ?>
-																																	<a style="text-decoration:none;" href=<?php echo "news_remove.php?newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
-																																	<a style="text-decoration:none;" href=<?php echo "main.php?page=1&&newsid=".$news['newsid']?>><button class="btn btn-primary btn-sm">编辑</button></a>
-																																	<?php }//end if($is_class_manager) ?>
+									<a style="text-decoration:none;" href=<?php echo "news_remove.php?newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
+									<a style="text-decoration:none;" href=<?php echo "main.php?page=1&&newsid=".$news['newsid']?>><button class="btn btn-primary btn-sm">编辑</button></a>
+									<?php }//end if($is_class_manager) ?>
 								</div>
 								<hr/>
 								<?php }
@@ -146,7 +146,7 @@ $class_name = get_classname_with_classid($classid);
 									?>
 									<div>
 										<h4>
-											<?php echo $realname_array[$i]." 发表于 ".$chat['posttime'];?>
+											<?php echo  "[聊天]".$realname_array[$i]." 发表于 ".$chat['posttime'];?>
 										</h4>
 										<h4>
 											<?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$chat['content'];
@@ -161,30 +161,30 @@ $class_name = get_classname_with_classid($classid);
 									<hr/>
 									<?php } ?>
 								</div>		
-			<?php if(isset($_GET['chatid'])) {
-				$chatid = safeGet('chatid');
-				?>
-				<form method="post" action="chat_create.php?page=1" >
-					<div class  ="modal-dialog">
-						<div class ="modal-content">
-							<div class="modal-header">
-								<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="close" aria-hidden="true">&times;
-								</button></a>
-								<h4 class="modal-title" id="myModalLabel">发言喽</h4>
-							</div>
-							<div class="modal-body">
-								<p class ="help-block">回复：</p>
-								<textarea autofocus="autofocus" name="chat" class="form-control" rows="5"><?php echo "回复".get_realname_with_email(get_chat_info($chatid)['author']).":";?></textarea>
-								<p align="right"><label><input align="right" type="checkbox" name="unknown">匿名<p></label>
-								</div>
-								<div class="modal-footer">
-									<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="btn btn-default">关闭</button></a>
-									<input type="submit" value="发送" class="btn btn-primary" />
-								</div>
-							</div><!-- /.modal-content -->
-						</div><!-- /.modal-dialog -->
-					</form>
-					<?php } //  end if isset($_GET['chatid'])?> 
+								<?php if(isset($_GET['chatid'])) {
+									$chatid = safeGet('chatid');
+									?>
+									<form method="post" action="chat_create.php?page=1" >
+										<div class  ="modal-dialog">
+											<div class ="modal-content">
+												<div class="modal-header">
+													<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="close" aria-hidden="true">&times;
+													</button></a>
+													<h4 class="modal-title" id="myModalLabel">发言喽</h4>
+												</div>
+												<div class="modal-body">
+													<p class ="help-block">回复：</p>
+													<textarea autofocus="autofocus" name="chat" class="form-control" rows="5"><?php echo "回复".get_realname_with_email(get_chat_info($chatid)['author']).":";?></textarea>
+													<p align="right"><label><input align="right" type="checkbox" name="unknown">匿名<p></label>
+													</div>
+													<div class="modal-footer">
+														<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="btn btn-default">关闭</button></a>
+														<input type="submit" value="发送" class="btn btn-primary" />
+													</div>
+												</div><!-- /.modal-content -->
+											</div><!-- /.modal-dialog -->
+										</form>
+										<?php } //  end if isset($_GET['chatid'])?> 
 									<!--ul class="pager">
 																															<li class="previous disabled"><a href="#">&larr; Older</a></li>
 																															<li class="next"><a href="#">Newer &rarr;</a></li>
