@@ -2,6 +2,7 @@
 	include_once('include_fns.php');
 	session_start();
 	$classid = -1;
+	$page = safeGet('page');
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
 	}
@@ -22,16 +23,16 @@
 		middlepage("classes.php", "你不是本班成员");
 	}
 	if($admin  > 1 ) {
-		middlepage("main.php?page=2", "权限不足");
+		middlepage("main.php?page".$page, "权限不足");
 	}
 	if(!isset($_GET['newsid'])) {
-		middlepage("main.php?page=2", "未选择消息");
+		middlepage("main.php?page".$page, "未选择消息");
 	}
 	$toremove = safeGet('newsid');
 	if (!find_news($classid, $toremove)) {
-		middlepage("main.php?page=2","你穿越了吧？");
+		middlepage("main.php?page".$page,"你穿越了吧？");
 	}else {
 		remove_news($toremove);
-		middlepage("main.php?page=2","成功删除");
+		middlepage("main.php?page".$page,"成功删除");
 	}
 ?>

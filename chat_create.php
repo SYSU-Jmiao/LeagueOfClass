@@ -1,6 +1,7 @@
 <?php
 	include_once('include_fns.php');
 	session_start();
+	$page = safeGet('page');
 	$classid = -1;
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
@@ -27,8 +28,8 @@
 		} else {
 			create_chat($classid,$email,safePost('chat'),get_server_datetime());
 		}
-		middlepage("main.php?page=4","发表成功");
+		middlepage("main.php?page=".$page,"发表成功");
 	} else {
-		middlepage("main.php?page=4","你穿越了吧？");
+		middlepage("main.php?page=".$page,"你穿越了吧？");
 	}
 ?>

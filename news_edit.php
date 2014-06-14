@@ -1,6 +1,7 @@
 <?php
 	include_once('include_fns.php');
 	session_start();
+	$page=safeGet('page');
 	$classid = -1;
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
@@ -22,16 +23,16 @@
 		middlepage("classes.php", "你不是本班成员");
 	}
 	if($admin  > 1 ) {
-		middlepage("main.php?page=2", "权限不足");
+		middlepage("main.php?page".$page, "权限不足");
 	}
 	if(!isset($_GET['newsid'])) {
-		middlepage("main.php?page=2", "未选择消息");
+		middlepage("main.php?page".$page, "未选择消息");
 	}
 	$toedit = safeGet('newsid');
 	if (!find_news($classid, $toedit) || !isset($_POST['content'])) {
-		middlepage("main.php?page=2","你穿越了吧？");
+		middlepage("main.php?page".$page,"你穿越了吧？");
 	} else {
 		update_news($toedit, safePost('content'), get_server_datetime());
-		middlepage("main.php?page=2","编辑成功");
+		middlepage("main.php?page".$page,"编辑成功");
 	}
 ?>

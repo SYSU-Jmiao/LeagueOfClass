@@ -1,6 +1,7 @@
 <?php
 	include_once('include_fns.php');
 	session_start();
+	$page = safeGet('page');
 	$classid = -1;
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
@@ -22,12 +23,12 @@
 		middlepage("classes.php", "你不是本班成员");
 	}
 	if($admin  > 1 ) {
-		middlepage("main.php?page=2", "权限不足");
+		middlepage("main.php?page=".$page, "权限不足");
 	}
 	if(!isset($_POST['news'])){
-		middlepage("main.php?page=2","你穿越了吧？");
+		middlepage("main.php?page=".$page,"你穿越了吧？");
 	} else {
 		create_news($classid,$email,safePost('news'),get_server_datetime());
-		middlepage("main.php?page=2","发布消息成功");
+		middlepage("main.php?page=".$page,"发布消息成功");
 	}
 ?>

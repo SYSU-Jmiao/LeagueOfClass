@@ -6,8 +6,9 @@ create table if not exists `student` (
 	`email` char(100) not null,
 	`password` char(40) not null,
 	`realname` char(20),
+	`stuid` int(30) unsigned not null AUTO_INCREMENT,
 	`accessdate` date not null,
-	primary key (`email`)
+	primary key (`stuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table if not exists `salt` (
