@@ -2,6 +2,7 @@
 	include_once('include_fns.php');
 	session_start();
 	$classid = -1;
+	$page=safeGet('page');
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
 	}
@@ -25,13 +26,13 @@
 		middlepage("view_class_chat.php", "权限不足");
 	}
 	if(!isset($_GET['chatid'])) {
-		middlepage("main.php?page=4", "未选择消息");
+		middlepage("main.php?page=".$page, "未选择消息");
 	}
 	$toremove = safeGet('chatid');
 	if (!find_chat($classid, $toremove)) {
-		middlepage("main.php?page=4","你穿越了吧？");
+		middlepage("main.php?page=".$page,"你穿越了吧？");
 	} else {
 		remove_chat($toremove);
-		middlepage("main.php?page=4","成功删除");
+		middlepage("main.php?page=".$page,"成功删除");
 	}
 ?>

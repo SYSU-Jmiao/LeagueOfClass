@@ -1,6 +1,7 @@
 <?php
 	include_once("include_fns.php");
 	session_start();
+	$page=safeGet('page');
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
 	}
@@ -22,10 +23,10 @@
 		middlepage("classes.php", "你不是本班成员");
 	}
 	if ($admin > 1) {
-		middlepage("main.php?page=3","权限不足");
+		middlepage("main.php?page".$page,"权限不足");
 	}
 	if (!isset($_GET['category']) || !isset($_GET['name'])) {
-		middlepage("main.php?page=3", "你穿越了吧？");
+		middlepage("main.php?page".$page, "你穿越了吧？");
 	} else {
 		$category = safeGet('category');
 		$filename = safeGet('name');
@@ -34,6 +35,6 @@
 			unlink ($ext);
 		}
 		delete_resource($classid,$category,$filename);
-		middlepage("main.php?page=3", "删除成功！");
+		middlepage("main.php?page".$page, "删除成功！");
 	}
 ?>

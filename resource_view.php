@@ -1,4 +1,5 @@
 <?php
+	header("Content-Type:text/html;charset=utf-8"); 
 	include_once('include_fns.php');
 	session_start();
 	$classid = -1;
@@ -43,14 +44,15 @@
 		if ($description == "") {
 			$description = "空";
 		}
-		echo "<a target='_blank' href='resource_download.php?category=".$category."&filename=".$filename."'><h3>".$resource['name']."</a>";
+		//echo "<a target='_blank' href='resource_download.php?page=3&&category=".$category."&filename=".$filename."'><h3>".$resource['name']."</a>";
+		echo "<a target='_blank' href='./upload/".$classid."/".$category."/".$filename."'><h3>".$resource['name']."</a>";
 		echo '<h4>上传者:'.$uploader.'</h4>';
 		echo '<h4>下载次数:'.$downloadtimes.'</h4>';
 		echo '<h4>资源描述:</h4>';
 		echo "<p>".$description."</p>";
 		if ($is_class_manager) {
 ?>
-		<a style="text-decoration:none;" href=<?php echo "resource_remove.php?category=".$category."&&name=".$filename ?> ><button class="btn btn-primary btn-sm">删除</button></a>
+		<a style="text-decoration:none;" href=<?php echo "resource_remove.php?page=3&&category=".$category."&&name=".$filename ?> ><button class="btn btn-primary btn-sm">删除</button></a>
 <?php
 		}
 	}

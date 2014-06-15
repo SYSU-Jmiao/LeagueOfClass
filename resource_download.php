@@ -2,6 +2,7 @@
 	include_once("include_fns.php");
 	session_start();
 	$classid = -1;
+	$page=safeGet('page');
 	if(!isset($_SESSION['email'])){
 		middlepage("index.php", "请先登录");
 	}
@@ -25,7 +26,7 @@ if(isset($_GET['category']) && isset($_GET['filename'])) {
 	$filename = safeGet('filename');
 
 	increase_downloadtimes($category,$filename,$classid);
-
+	
 	if(file_exists("./upload/".$classid."/".$category."/".$filename)){
 		$ext = pathinfo("./upload/".$classid."/".$category."/".$filename,PATHINFO_EXTENSION);
 		$ua = $_SERVER['HTTP_USER_AGENT'];
@@ -34,16 +35,16 @@ if(isset($_GET['category']) && isset($_GET['filename'])) {
 		}
 		if($ext == "pdf"){
 			header("Content-Type:application/pdf");
-			header("Content-Disposition:inline;filename='".$filename."'");
+			header("Content-Disposition:inline;filename=".$filename);
 		}
 		else if($ext=="jpg" or $ext=="png"){
 			header("Content-Type:image");
-			header("Content-Disposition:inline;filename='".$filename."'");
+			header("Content-Disposition:inline;filename=".$filename);
 		}else{
 			header("Content-Type:application/octet-stream");
-			header("Content-Disposition:attachment;filename='".$filename."'");
+			header("Content-Disposition:attachment;filename=".$filename);
 		}
-		readfile("./upload/".$classid."/".$category."/".$filename);	
+		readfile("./upload/".$classid."/".$category."/".$filename);
 	}
 } else {
 	echo "你穿越了？";

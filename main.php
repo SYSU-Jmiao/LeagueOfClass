@@ -125,154 +125,222 @@ $class_name = get_classname_with_classid($classid);
 								?>
 								<div>
 									<h4>
-										<?php echo "[通知]".$realname_array[$i]." 发表于 ".$news['posttime'];?>
+										<font color="red"> [通知]</font>
 									</h4>
-									<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content']?></h4>
+									<h4>
+										<?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content']?>
+									</h4>
+									<h6>
+										<?php echo $realname_array[$i]." 发表于 ".$news['posttime'];?>
+									</h6>
+									
 									<?php if ($is_class_manager) {// begin if($is_class_manager) ?>
-									<a style="text-decoration:none;" href=<?php echo "news_remove.php?newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
+									<a style="text-decoration:none;" href=<?php echo "news_remove.php?page=1&&newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
 									<a style="text-decoration:none;" href=<?php echo "main.php?page=1&&newsid=".$news['newsid']?>><button class="btn btn-primary btn-sm">编辑</button></a>
 									<?php }//end if($is_class_manager) ?>
 								</div>
 								<hr/>
-								<?php }
-								$chat_array = get_chat($classid);
-								$email_array = array();
-								foreach ($chat_array as $chat) {
-									array_push($email_array, $chat['author']);
-								}
-								$realname_array = get_realnames_with_emails($email_array);
-								for ($i = 0; $i < count($chat_array); $i++) {
-									$chat = $chat_array[$i];
+								<?php }if (isset($_GET['newsid'])) {
+									$toedit = safeGet('newsid');
 									?>
-									<div>
-										<h4>
-											<?php echo  "[聊天]".$realname_array[$i]." 发表于 ".$chat['posttime'];?>
-										</h4>
-										<h4>
-											<?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$chat['content'];
-											?>
-										</h4>
-										<?php if ($is_class_manager) {?>
-										<a style="text-decoration:none;" href=<?php echo "chat_remove.php?chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">删除</button></a>
-										<?php }?>
-										<a style="text-decoration:none;" href=<?php echo "main.php?page=1&&chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">回复</button></a>
-										<br/>
-									</div>
-									<hr/>
-									<?php } ?>
-								</div>		
-								<?php if(isset($_GET['chatid'])) {
-									$chatid = safeGet('chatid');
-									?>
-									<form method="post" action="chat_create.php?page=1" >
+									<form method="post" action=<?php echo "news_edit.php?page=1&&newsid=".$toedit?> >
 										<div class  ="modal-dialog">
 											<div class ="modal-content">
 												<div class="modal-header">
 													<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="close" aria-hidden="true">&times;
 													</button></a>
-													<h4 class="modal-title" id="myModalLabel">发言喽</h4>
+													<h4 class="modal-title" id="myModalLabel">编辑通知</h4>
 												</div>
 												<div class="modal-body">
-													<p class ="help-block">回复：</p>
-													<textarea autofocus="autofocus" name="chat" class="form-control" rows="5"><?php echo "回复".get_realname_with_email(get_chat_info($chatid)['author']).":";?></textarea>
-													<p align="right"><label><input align="right" type="checkbox" name="unknown">匿名<p></label>
+													<p class ="help-block">修改通知内容：</p>
+													<textarea autofocus="autofocus" name="content" id="news" class="form-control" rows="5"><?php echo get_news_info($toedit)['content']?></textarea>
+												</div>
+												<div class="modal-footer">
+													<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="btn btn-default">关闭</button></a>
+													<input type="submit" value="发送" class="btn btn-primary" />
+													<!--button type="button" value="post" class="btn btn-primary">发送</button-->
+												</div>
+											</div><!-- /.modal-content -->
+										</div><!-- /.modal-dialog -->
+									</form>
+								<?php }
+								$all_resource = get_resource($classid);
+								$email_array = array();
+								foreach ($all_resource as $resource) {
+									array_push($email_array, $resource['uploader']);
+								}
+								$realname_array = get_realnames_with_emails($email_array);
+								for ($i = 0; $i < count($all_resource); $i ++) {
+									$resource = $all_resource[$i];
+									$filename = $resource['name'];
+									$downloadtimes = $resource['downloadtimes'];
+									$uploader = $realname_array[$i];
+									$description = $resource['description'];
+									$category = $resource['category'];
+									if ($description == "" || "我很懒，所以我什么描述都没写") {
+										$description = "";
+									}
+									else $description = "资源描述:\n".$description; ?>
+										<div>
+											<h4> 
+												<font color="orange"> [资源]</font> 
+											</h4>
+									<?php 
+									//echo "<a target='_blank' href='resource_download.php?page=1&&category=".$category."&filename=".$filename."'><h3>".$resource['name']."</a>";
+									echo "<a target='_blank' href='./upload/".$classid."/".$category."/".$filename."'><h3>".$resource['name']."</a>";
+									echo '<h6>上传者:'.$uploader.'</h6>';
+									echo '<h6>下载次数:'.$downloadtimes.'</h6>';
+									echo "<h6>".$description."</h6>";
+					
+									if ($is_class_manager) {
+										?>
+										<a style="text-decoration:none;" href=<?php echo "resource_remove.php?page=1&&category=".$category."&&name=".$filename ?> ><button class="btn btn-primary btn-sm">删除</button></a>
+										<?php
+									}?>
+									</div>
+ 									<hr/>
+								
+								
+
+							<?php }
+								$chat_array = get_chat($classid);
+								$email_array = array();
+								foreach ($chat_array as $chat) {
+								array_push($email_array, $chat['author']);
+							}
+							$realname_array = get_realnames_with_emails($email_array);
+							for ($i = 0; $i < count($chat_array); $i++) {
+							$chat = $chat_array[$i];
+							?>
+							<div>
+								<h4>
+									<font color="blue"> [聊天]</font>
+								</h4>
+								<h4>									
+									<?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$chat['content'];?>
+								</h4>
+								<h6>
+									<?php echo  $realname_array[$i]." 发表于 ".$chat['posttime'];?>
+								</h6>
+								<?php if ($is_class_manager) {?>
+								<a style="text-decoration:none;" href=<?php echo "chat_remove.php?page=1&&chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">删除</button></a>
+								<?php }?>
+								<a style="text-decoration:none;" href=<?php echo "main.php?page=1&&chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">回复</button></a>
+								<br/>
+							</div>
+							<hr/>
+							<?php } ?>
+						</div>		
+						<?php if(isset($_GET['chatid'])) {
+							$chatid = safeGet('chatid');
+							?>
+							<form method="post" action="chat_create.php?page=1" >
+								<div class  ="modal-dialog">
+									<div class ="modal-content">
+										<div class="modal-header">
+											<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="close" aria-hidden="true">&times;
+											</button></a>
+											<h4 class="modal-title" id="myModalLabel">发言喽</h4>
+										</div>
+										<div class="modal-body">
+											<p class ="help-block">回复：</p>
+											<textarea autofocus="autofocus" name="chat" class="form-control" rows="5"><?php echo "回复".get_realname_with_email(get_chat_info($chatid)['author']).":";?></textarea>
+											<p align="right"><label><input align="right" type="checkbox" name="unknown">匿名<p></label>
+											</div>
+											<div class="modal-footer">
+												<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="btn btn-default">关闭</button></a>
+												<input type="submit" value="发送" class="btn btn-primary" />
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</form>
+								<?php } //  end if isset($_GET['chatid'])?> 
+								<ul class="pager">
+
+									<li class="previous disabled"><a href="#">&larr; Older</a></li>
+									<li class="next"><a href="#">Newer &rarr;</a></li>
+								</ul-->
+								<?php } else if ($page == 2) {?>
+								<div class="bs-callout bs-callout-warning">
+									<h4>消息通知</h4>
+									<p>这里会发布最新的消息通知</p>
+									<?php
+									if (!isset($_GET['newsid']) && $is_class_manager) {?>
+									<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">发条通知</button>
+									<?php }?>
+								</div>
+
+								<?php if (isset($_GET['newsid'])) {
+									$toedit = safeGet('newsid');
+									?>
+									<form method="post" action=<?php echo "news_edit.php?page=2?newsid=".$toedit?> >
+										<div class  ="modal-dialog">
+											<div class ="modal-content">
+												<div class="modal-header">
+													<a style="text-decoration:none;" href="main.php?page=2" ><button type="button" class="close" aria-hidden="true">&times;
+													</button></a>
+													<h4 class="modal-title" id="myModalLabel">编辑通知</h4>
+												</div>
+												<div class="modal-body">
+													<p class ="help-block">修改通知内容：</p>
+													<textarea autofocus="autofocus" name="content" id="news" class="form-control" rows="5"><?php echo get_news_info($toedit)['content']?></textarea>
+												</div>
+												<div class="modal-footer">
+													<a style="text-decoration:none;" href="main.php?page=2" ><button type="button" class="btn btn-default">关闭</button></a>
+													<input type="submit" value="发送" class="btn btn-primary" />
+													<!--button type="button" value="post" class="btn btn-primary">发送</button-->
+												</div>
+											</div><!-- /.modal-content -->
+										</div><!-- /.modal-dialog -->
+									</form>
+									<?php } else {// start !isset($_GET['newsid']) ?>
+									<!-- Modal -->
+									<form method="post" action="news_create.php?page=2">
+										<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class  ="modal-dialog">
+												<div class ="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+														<h4 class="modal-title" id="myModalLabel">发通知，发个够！</h4>
+													</div>
+													<div class="modal-body">
+														<p class ="help-block">输入通知内容：</p>
+														<textarea autofocus="autofocus" name="news" id="news" class="form-control" rows="5"></textarea>
 													</div>
 													<div class="modal-footer">
-														<a style="text-decoration:none;" href="main.php?page=1" ><button type="button" class="btn btn-default">关闭</button></a>
+														<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 														<input type="submit" value="发送" class="btn btn-primary" />
 													</div>
 												</div><!-- /.modal-content -->
 											</div><!-- /.modal-dialog -->
-										</form>
-										<?php } //  end if isset($_GET['chatid'])?> 
-									<!--ul class="pager">
-																															<li class="previous disabled"><a href="#">&larr; Older</a></li>
-																															<li class="next"><a href="#">Newer &rarr;</a></li>
-																														</ul-->
-																														<li class="previous disabled"><a href="#">&larr; Older</a></li>
-																														<li class="next"><a href="#">Newer &rarr;</a></li>
-																													</ul-->
-																													<?php } else if ($page == 2) {?>
-																													<div class="bs-callout bs-callout-warning">
-																														<h4>消息通知</h4>
-																														<p>这里会发布最新的消息通知</p>
-																														<?php
-																														if (!isset($_GET['newsid']) && $is_class_manager) {?>
-																														<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">发条通知</button>
-																														<?php }?>
-																													</div>
+										</div><!-- /.modal -->
+									</form>
 
-																													<?php if (isset($_GET['newsid'])) {
-																														$toedit = safeGet('newsid');
-																														?>
-																														<form method="post" action=<?php echo "news_edit.php?page=2?newsid=".$toedit?> >
-																															<div class  ="modal-dialog">
-																																<div class ="modal-content">
-																																	<div class="modal-header">
-																																		<a style="text-decoration:none;" href="main.php?page=2" ><button type="button" class="close" aria-hidden="true">&times;
-																																		</button></a>
-																																		<h4 class="modal-title" id="myModalLabel">编辑通知</h4>
-																																	</div>
-																																	<div class="modal-body">
-																																		<p class ="help-block">修改通知内容：</p>
-																																		<textarea autofocus="autofocus" name="content" id="news" class="form-control" rows="5"><?php echo get_news_info($toedit)['content']?></textarea>
-																																	</div>
-																																	<div class="modal-footer">
-																																		<a style="text-decoration:none;" href="main.php?page=2" ><button type="button" class="btn btn-default">关闭</button></a>
-																																		<input type="submit" value="发送" class="btn btn-primary" />
-																																		<!--button type="button" value="post" class="btn btn-primary">发送</button-->
-																																	</div>
-																																</div><!-- /.modal-content -->
-																															</div><!-- /.modal-dialog -->
-																														</form>
-																														<?php } else {// start !isset($_GET['newsid']) ?>
-																														<!-- Modal -->
-																														<form method="post" action="news_create.php?page=2">
-																															<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																																<div class  ="modal-dialog">
-																																	<div class ="modal-content">
-																																		<div class="modal-header">
-																																			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-																																			<h4 class="modal-title" id="myModalLabel">发通知，发个够！</h4>
-																																		</div>
-																																		<div class="modal-body">
-																																			<p class ="help-block">输入通知内容：</p>
-																																			<textarea autofocus="autofocus" name="news" id="news" class="form-control" rows="5"></textarea>
-																																		</div>
-																																		<div class="modal-footer">
-																																			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-																																			<input type="submit" value="发送" class="btn btn-primary" />
-																																		</div>
-																																	</div><!-- /.modal-content -->
-																																</div><!-- /.modal-dialog -->
-																															</div><!-- /.modal -->
-																														</form>
+									<div class="bs-docs-section">
+										<?php
+										$news_array = get_news($classid);
+										$email_array = array();
+										foreach ($news_array as $news) {
+											array_push($email_array, $news['author']);
+										}
+										$realname_array = get_realnames_with_emails($email_array);
+										for ($i = 0; $i < count($news_array); $i++) {
+											$news = $news_array[$i];
+											?>
+											<div>
+												<h4>
+													<?php echo $realname_array[$i]." 发表于 ".$news['posttime'];?>
+												</h4>
+												<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content'];
+													?></h4>
+												</div>
+												<hr/>
 
-																														<div class="bs-docs-section">
-																															<?php
-																															$news_array = get_news($classid);
-																															$email_array = array();
-																															foreach ($news_array as $news) {
-																																array_push($email_array, $news['author']);
-																															}
-																															$realname_array = get_realnames_with_emails($email_array);
-																															for ($i = 0; $i < count($news_array); $i++) {
-																																$news = $news_array[$i];
-																																?>
-																																<div>
-																																	<h4>
-																																		<?php echo $realname_array[$i]." 发表于 ".$news['posttime'];?>
-																																	</h4>
-																																	<h4><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$news['content'];
-																																		?></h4>
-																																	</div>
-																																	<hr/>
-
-																																	<?php if ($is_class_manager) {// begin if($is_class_manager) ?>
-																																	<a style="text-decoration:none;" href=<?php echo "news_remove.php?newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
-																																	<a style="text-decoration:none;" href=<?php echo "main.php?page=2&&newsid=".$news['newsid']?>><button class="btn btn-primary btn-sm">编辑</button></a>
-																																	<?php }//end if($is_class_manager) ?>
-																																	<?php
+												<?php if ($is_class_manager) {// begin if($is_class_manager) ?>
+												<a style="text-decoration:none;" href=<?php echo "news_remove.php?page=2&&newsid=".$news['newsid']?> ><button class="btn btn-primary btn-sm">删除</button></a>
+												<a style="text-decoration:none;" href=<?php echo "main.php?page=2&&newsid=".$news['newsid']?>><button class="btn btn-primary btn-sm">编辑</button></a>
+												<?php }//end if($is_class_manager) ?>
+												<?php
 		}// end foreach
 		?>
 	</div>
@@ -286,7 +354,7 @@ $class_name = get_classname_with_classid($classid);
 		</div>
 
 		<!-- Modal -->
-		<form target="_blank" method="post" action="resource_upload.php" enctype='multipart/form-data'>
+		<form target="_blank" method="post" action="resource_upload.php?page=3" enctype='multipart/form-data'>
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class  ="modal-dialog">
 					<div class ="modal-content">
@@ -475,7 +543,7 @@ $class_name = get_classname_with_classid($classid);
 																														?></h4>
 
 																														<?php if ($is_class_manager) {?>
-																														<a style="text-decoration:none;" href=<?php echo "chat_remove.php?chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">删除</button></a>
+																														<a style="text-decoration:none;" href=<?php echo "chat_remove.php?page=4&&chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">删除</button></a>
 																														<?php }?>
 																														<a style="text-decoration:none;" href=<?php echo "main.php?page=4&&chatid=".$chat['chatid']?>><button class="btn btn-primary btn-sm">回复</button></a>
 																														<br/>

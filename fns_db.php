@@ -1,4 +1,5 @@
 <?php
+header("Content-Type:text/html;charset=utf-8"); 
 function db_connect() {
 
 	$result = new mysqli("localhost", "jmiao", "", "leagueofclass");
@@ -160,7 +161,7 @@ function new_resource($name, $postdate, $description, $uploader, $classid, $cate
 	db_nonreturn_operation("insert into resource values('".$name."','".$postdate."','".$description."',0,'".$uploader."','".$classid."','".$category."')", "Error:".__FUNCTION__);
 }
 function get_resource($classid) {
-	return db_array_return_operation("select * from resource where classid='".$classid."'", "Error:".__FUNCTION__);
+	return db_array_return_operation("select * from resource where classid='".$classid."' order by postdate desc", "Error:".__FUNCTION__);
 }
 function check_resource($filename, $classid, $category) {
 	return db_single_array_return_operation("select * from resource where name='".$filename."' and classid='".$classid."' and category='".$category."'", "Error".__FUNCTION__);
