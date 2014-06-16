@@ -16,6 +16,7 @@
 	<script src="./dist/js/jquery-2.1.1.min.js"></script>
 </head>
 <?php
+header("Content-Type:text/html;charset=utf-8"); 
 include_once ('./../include_fns.php');
 session_start();
 if (!isset($_SESSION['isadmin']) && !isset($_POST['serverpassword'])) {

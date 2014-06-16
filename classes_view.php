@@ -1,4 +1,5 @@
 <?php
+	header("Content-type:text/html;charset=utf-8");
 	include_once('include_fns.php');
 	session_start();
 	if (!isset($_SESSION['email'])) {
@@ -10,7 +11,12 @@
 		$search = "";
 	} else {
 		$search = safeGet('search');
-	}
+		$encode = mb_detect_encoding($search, array("UTF-8","GB2312")); 
+		if(!($encode === 'UTF-8'))
+		{
+			$search = iconv( "GB2312//IGNORE", "UTF-8", $search);
+		}
+		}	
 	if ($search == 'mine') {
 		$all_class = get_my_classes($email);
 ?>

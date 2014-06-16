@@ -1,6 +1,6 @@
 <?php
+header("Content-Type:text/html;charset=utf-8"); 
 include_once ('phpmailer/class.phpmailer.php');
-
 function register($realname, $password, $email, $stuid, $accessday) {
 	if (!check_valid_password($password)) {
 		throw new Exception('password illegal');
@@ -152,7 +152,10 @@ function send_email($address, $subject, $body) {
 	$mail->Port       = 465;// set the SMTP port for the GMAIL server
 	$mail->Username   = "leagueofclass@163.com";// GMAIL username
 	$mail->Password   = "loc2014";// GMAIL password
-	$mail->SetFrom('leagueofclass@163.com', '班级联盟');//设置发件人
+	$name = '班级联盟';
+	$name = "=?UTF-8?B?".base64_encode($name)."?=";
+	$mail->SetFrom('leagueofclass@163.com', $name);//设置发件人
+	$subject = "=?UTF-8?B?".base64_encode($subject)."?=";
 	$mail->Body    = $body;//邮件内容
 	$mail->Subject = $subject;//邮件主题
 	$mail->AddAddress($address, $address);//添加收件人
@@ -180,8 +183,11 @@ function send_emails($address_array, $subject, $body) {
 	$mail->Port       = 465;// set the SMTP port for the GMAIL server
 	$mail->Username   = "leagueofclass@163.com";// GMAIL username
 	$mail->Password   = "loc2014";// GMAIL password
-	$mail->SetFrom('leagueofclass@163.com', '班级联盟');//设置发件人
+	$name = '班级联盟';
+	$name = "=?UTF-8?B?".base64_encode($name)."?=";
+	$mail->SetFrom('leagueofclass@163.com', $name);//设置发件人
 	$mail->Body    = $body;//邮件内容
+	$subject = "=?UTF-8?B?".base64_encode($subject)."?=";
 	$mail->Subject = $subject;//邮件主题
 	foreach ($address_array as $address) {
 		$mail->AddAddress($address, $address);

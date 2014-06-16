@@ -1,4 +1,5 @@
 <?php
+header("Content-Type:text/html;charset=utf-8"); 
 include_once ('include_fns.php');
 session_start();
 if (!isset($_SESSION['email'])) {

@@ -1,4 +1,10 @@
-<script type="text/javascript">
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+</head>
+<?php header("Content-type:text/html;charset=utf-8");?>
+<script charset="UTF-8" type="text/javascript">
 	var now_p = 0;
 	var speed = 0;
 	$(document).ready(function(){
@@ -29,7 +35,7 @@
 	});
 	$("#cla_3 a").click(function(){
 		if (now_p != 7){
-			$("#main_frame_2").load("classes_view.php?search=传社");
+			$("#main_frame_2").load("classes_view.php?search=传设院");
 			$("#main_frame_2").hide();
 			$("#main_frame_2").fadeIn(speed);
 			var self=$("#cla_3"); 
@@ -55,3 +61,4 @@
 <div name = "main_frame_2" id = "main_frame_2" data-target="#navbarEx" data-offset = "0">
 
 </div>
+</html>
